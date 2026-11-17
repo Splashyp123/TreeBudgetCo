@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f1e8" />
+  <title>Sprout — grow your goals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Sprout home"><span class="brand-mark">✳</span> sprout</a>
+      <div class="topbar-right">
+        <span class="streak"><span class="flame">♨</span> You’ve kept a 12-day streak</span>
+        <button class="avatar" type="button" aria-label="Open profile menu">AB</button>
+      </div>
+    </header>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">MONDAY, NOVEMBER 2 <span class="dot"></span> YOUR GARDEN</p>
+        <h1>Little by little,<br><em>you grow.</em></h1>
+        <p class="hero-copy">Every dollar you save gives your goals a little more sunshine.</p>
+      </div>
+      <div class="sun-decoration" aria-hidden="true"><span>☼</span></div>
+    </section>
+
+    <section class="stats-grid" aria-label="Garden summary">
+      <article class="stat-card stat-main">
+        <span class="stat-label">Total saved</span>
+        <strong id="total-saved">$1,240</strong>
+        <span class="stat-note positive"><span>↗</span> <span id="month-growth">$180</span> this month</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-label">Goals in progress</span>
+        <strong id="goal-count">3</strong>
+        <span class="stat-note">2 are close to blooming</span>
+      </article>
+      <article class="stat-card next-card">
+        <span class="stat-label">Next milestone</span>
+        <strong id="next-milestone">—</strong>
+        <span class="stat-note" id="next-milestone-note">Add a due date to see what comes next.</span>
+      </article>
+    </section>
+
+    <div class="content-grid">
+      <section class="garden-column" aria-labelledby="garden-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">YOUR GARDEN</p><h2 id="garden-title">Goals you’re growing</h2></div>
+          <button class="text-button" id="open-goal" type="button">Plant a new goal</button>
+        </div>
+        <div class="plant-list" id="plant-list"></div>
+      </section>
+
+      <aside class="activity-column" aria-labelledby="activity-title">
+        <div class="section-heading compact"><div><p class="eyebrow">CARE FOR YOUR GOALS</p><h2 id="activity-title">Help your goals grow</h2></div></div>
+        <form class="log-card" id="log-form">
+          <label for="amount">I’d like to add</label>
+          <div class="amount-input"><span>$</span><input id="amount" name="amount" type="number" min="1" step="1" placeholder="0.00" required /><button type="submit">Add savings</button></div>
+          <label for="goal-select">Choose a goal</label>
+          <select id="goal-select" name="goal"></select>
+          <p class="form-hint">A little water goes a long way.</p>
+        </form>
+        <button class="withdraw-button" id="withdraw-toggle" type="button">Need to withdraw some savings?</button>
+        <form class="withdraw-form is-hidden" id="withdraw-form">
+          <label for="withdraw-amount">Amount to withdraw</label>
+          <div class="amount-input"><span>$</span><input id="withdraw-amount" type="number" min="1" step="1" placeholder="0.00" required /><button type="submit">Withdraw</button></div>
+          <select id="withdraw-goal"></select>
+        </form>
+        <div class="activity-head"><h3>Recent activity</h3><span id="activity-count">Your latest activity</span></div>
+        <div class="activity-list" id="activity-list"></div>
+      </aside>
+    </div>
+  </main>
+
+  <dialog class="goal-dialog" id="goal-dialog">
+    <form method="dialog" id="goal-form">
+      <button class="close-dialog" type="button" aria-label="Close">×</button>
+      <p class="eyebrow">START A NEW GOAL</p><h2>What are you growing toward?</h2>
+      <p class="dialog-copy">Give your goal a name and a little sunlight to start it off.</p>
+      <label for="goal-name">Goal name</label><input id="goal-name" type="text" placeholder="e.g. A weekend away" maxlength="28" required />
+      <label for="goal-target">Savings target</label><div class="modal-amount"><span>$</span><input id="goal-target" type="number" min="1" step="1" placeholder="1,000" required /></div>
+      <label for="goal-due-date">Due date <span class="optional-label">optional</span></label><input id="goal-due-date" type="date" />
+      <fieldset class="plant-picker"><legend>Choose a plant</legend><label><input type="radio" name="plant" value="tree" checked /><span>🌳<small>tree</small></span></label><label><input type="radio" name="plant" value="bean"><span>🌱<small>beanstalk</small></span></label><label><input type="radio" name="plant" value="flower"><span>🌻<small>big flower</small></span></label></fieldset>
+      <button class="primary-button" value="default" type="submit">Create this goal <span>→</span></button>
+    </form>
+  </dialog>
+  <dialog class="goal-dialog" id="edit-dialog">
+    <form method="dialog" id="edit-form">
+      <button class="close-dialog" type="button" aria-label="Close">×</button>
+      <p class="eyebrow">UPDATE YOUR GOAL</p><h2>Update your goal</h2>
+      <p class="dialog-copy">Keep the details fresh so your next milestone stays on track.</p>
+      <label for="edit-goal-name">Goal name</label><input id="edit-goal-name" type="text" maxlength="28" required />
+      <label for="edit-goal-target">Savings target</label><div class="modal-amount"><span>$</span><input id="edit-goal-target" type="number" min="1" step="1" required /></div>
+      <label for="edit-goal-due-date">Due date <span class="optional-label">optional</span></label><input id="edit-goal-due-date" type="date" />
+      <button class="primary-button" value="default" type="submit">Save these changes <span>→</span></button>
+    </form>
+  </dialog>
+  <dialog class="confirm-dialog" id="delete-dialog">
+    <form method="dialog" id="delete-form">
+      <button class="close-dialog" type="button" id="cancel-delete" aria-label="Close">×</button>
+      <p class="eyebrow">REMOVE THIS GOAL</p><h2>Are you sure you want to remove it?</h2>
+      <p class="dialog-copy">Removing <strong id="delete-goal-name"></strong> will also erase the progress you have recorded for it.</p>
+      <div class="confirm-actions"><button class="secondary-button" type="button" id="keep-goal">Keep this goal</button><button class="delete-button" value="default" type="submit">Remove this goal</button></div>
+    </form>
+  </dialog>
+  <dialog class="view-dialog" id="view-dialog">
+    <form method="dialog">
+      <button class="close-dialog" type="submit" aria-label="Close">×</button>
+      <p class="eyebrow">A CLOSER LOOK</p><h2 id="view-goal-name">Your tree</h2>
+      <p class="dialog-copy" id="view-goal-status">This goal is growing well.</p>
+      <div class="view-plant-scene">
+        <div class="scene-sky"></div>
+        <div class="scene-dirt"></div>
+        <div class="scene-grass"></div>
+        <img id="view-plant-sprite" class="view-plant-sprite" alt="" />
+        <span id="view-plant-emoji" class="view-plant-emoji" aria-hidden="true"></span>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
